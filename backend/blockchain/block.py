@@ -8,7 +8,7 @@ GENESIS_DATA = {
     'last_hash':'genesis_last_hash',
     'hash':'genesis_hash',
     'data': [],
-    'difficulty':3,
+    'difficulty': 3,
     'nonce':'genesis_nonce'
 }
 
@@ -32,13 +32,16 @@ class Block:
             f'timestamp: {self.timestamp},'
             f'last_hash: {self.last_hash},'
             f'hash: {self.hash}, '
-            f'data: {self.data}),'
-            f'difficulty: {self.difficulty}),'
-            f'nonce: {self.nonce})'
+            f'data: {self.data},'
+            f'difficulty: {self.difficulty},'
+            f'nonce: {self.nonce}'
         )
     
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
+
+    def to_json(self):
+        return self.__dict__
     
     @staticmethod
     def mine_block(last_block, data):
