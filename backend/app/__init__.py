@@ -20,8 +20,10 @@ def route_blockchain():
 def route_blockchain_mine():
     transaction_data = 'stubbed_transaction_data'
     blockchain.add_block(transaction_data)
+    block = blockchain.chain[-1]
+    pubsub.broadcast_block(block)
 
-    return jsonify(blockchain.chain[-1].to_json())
+    return jsonify(block.to_json())
 
 PORT = 5000
 
