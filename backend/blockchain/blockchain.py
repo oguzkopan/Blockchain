@@ -2,17 +2,14 @@ from backend.blockchain.block import Block
 
 class Blockchain:
     """
-    Blockchain: a public ledger of transactions
-    Implemented as a list of blocks - data sets of transactons
+    Blockchain: a public ledger of transactions.
+    Implemented as a list of blocks - data sets of transactions
     """
-
     def __init__(self):
         self.chain = [Block.genesis()]
-        #self.current_transactions = []
 
     def add_block(self, data):
-        last_block = self.chain[-1]
-        self.chain.append(Block.mine_block(last_block,data))
+        self.chain.append(Block.mine_block(self.chain[-1], data))
 
     def __repr__(self):
         return f'Blockchain: {self.chain}'
@@ -38,12 +35,19 @@ class Blockchain:
         Serialize the blockchain into a list of blocks.
         """
         return list(map(lambda block: block.to_json(), self.chain))
-        """serialized_chain = []
 
-        for block in self.chain:
-            serialized_chain.append(block.to_json())
-        
-        return self.serialized_chain"""
+    @staticmethod
+    def from_json(chain_json):
+        """
+        Deserialize a list of serialized blocks into a Blokchain instance.
+        The result will contain a chain list of Block instances.
+        """
+        blockchain = Blockchain()
+        blockchain.chain = list(
+            map(lambda block_json: Block.from_json(block_json), chain_json)
+        )
+
+        return blockchain
 
     @staticmethod
     def is_valid_chain(chain):
@@ -61,13 +65,14 @@ class Blockchain:
             last_block = chain[i-1]
             Block.is_valid_block(last_block, block)
 
+
 def main():
     blockchain = Blockchain()
     blockchain.add_block('one')
     blockchain.add_block('two')
 
     print(blockchain)
-    print(f'blockchain.py __name__: {__name__}')
+    print(f'blockchain.py ___name__: {__name__}')
 
 if __name__ == '__main__':
     main()
